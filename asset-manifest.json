@@ -1,0 +1,35 @@
+{
+  "files": {
+    "main.css": "/static/css/main.e879a41d.css",
+    "main.js": "/static/js/main.3002117a.js",
+    "static/css/226.d5f5cfa1.chunk.css": "/static/css/226.d5f5cfa1.chunk.css",
+    "static/js/226.4c2d3488.chunk.js": "/static/js/226.4c2d3488.chunk.js",
+    "static/js/453.ac4ca767.chunk.js": "/static/js/453.ac4ca767.chunk.js",
+    "static/media/EcoScore-B.svg": "/static/media/EcoScore-B.f17740f754e31a48a6f7f90c7fa28396.svg",
+    "static/media/EcoScore-C.svg": "/static/media/EcoScore-C.4e0e4e3433b7867f3ac8d3b493245d2e.svg",
+    "static/media/EcoScore-A.svg": "/static/media/EcoScore-A.c12b3c802157e6805f34e974cbad8b37.svg",
+    "static/media/EcoScore-E.svg": "/static/media/EcoScore-E.907458f9e03bb9dd97214897cd8a74e4.svg",
+    "static/media/EcoScore-D.svg": "/static/media/EcoScore-D.cadd37bb0d7a01cd66ed9358fd212777.svg",
+    "static/media/nutriscore-c.svg": "/static/media/nutriscore-c.f33b3040c1490116736c3c001eaf0a84.svg",
+    "static/media/nutriscore-e.svg": "/static/media/nutriscore-e.54f3987946f6030046983a1984dd72f3.svg",
+    "static/media/nutriscore-a.svg": "/static/media/nutriscore-a.41850ee680a09067dfb2bff2c41f4604.svg",
+    "static/media/nutriscore-d.svg": "/static/media/nutriscore-d.abc0e78883e6d26cbe0fea9fe618e038.svg",
+    "static/media/nutriscore-b.svg": "/static/media/nutriscore-b.fdf4ce52bbf8bb4f3ce53e9434c3b16a.svg",
+    "static/media/EcoScore-Neutre.svg": "/static/media/EcoScore-Neutre.b10bcc2171da2a8b96de29de0ed1cb36.svg",
+    "static/media/nova-group-3.svg": "/static/media/nova-group-3.8131a2bf7be91d13800cb034bc3257d9.svg",
+    "static/media/nova-group-2.svg": "/static/media/nova-group-2.1308fdb0753bead04d95855c5e28f079.svg",
+    "static/media/nova-group-unknown.svg": "/static/media/nova-group-unknown.2c7fbb8bc54b6827a3e658fc60f775c7.svg",
+    "static/media/nova-group-4.svg": "/static/media/nova-group-4.77561034ddf63aad85f0383a65232ddf.svg",
+    "static/media/nova-group-1.svg": "/static/media/nova-group-1.311c4ba34ddf0995be8bbf9463981047.svg",
+    "index.html": "/index.html",
+    "main.e879a41d.css.map": "/static/css/main.e879a41d.css.map",
+    "main.3002117a.js.map": "/static/js/main.3002117a.js.map",
+    "226.d5f5cfa1.chunk.css.map": "/static/css/226.d5f5cfa1.chunk.css.map",
+    "226.4c2d3488.chunk.js.map": "/static/js/226.4c2d3488.chunk.js.map",
+    "453.ac4ca767.chunk.js.map": "/static/js/453.ac4ca767.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e879a41d.css",
+    "static/js/main.3002117a.js"
+  ]
+}

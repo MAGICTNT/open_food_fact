@@ -1,0 +1,2 @@
+"use strict";(self.webpackChunkopen_food_fact=self.webpackChunkopen_food_fact||[]).push([[226],{226:(e,f,o)=>{o.r(f),o.d(f,{default:()=>c});const c={}}}]);
+//# sourceMappingURL=226.4c2d3488.chunk.js.map
