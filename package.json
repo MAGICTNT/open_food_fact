@@ -1,7 +1,7 @@
 {
   "name": "open_food_fact",
   "version": "0.1.0",
-  "homepage": "https://MAGICTNT.github.io/open_food_fact",
+  "homepage": "https://magictnt.github.io/open_food_fact/",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
