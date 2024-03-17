@@ -1,0 +1,62 @@
+.textGreen{
+    color: green;
+}
+
+.textRed{
+    color: red;
+}
+
+.textBlack{
+    color: Black;
+}
+
+.comparatifRecherche, .comparatifImage{
+    display: flex;
+    flex-direction: row;
+    width: 50%;
+    margin: auto;
+    justify-content: space-around;
+}
+
+.comparatifImage section{
+    display: flex;
+    flex-direction: column;
+}
+
+.comparatifImage img{
+    height: 300px;
+    object-fit: contain; /* ou "contain", en fonction de votre préférence */
+
+}
+
+.comparatifTableau table, .comparatifTableau th{
+    margin: auto;
+    border: 1px solid black;
+}
+table {
+    width: 50%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Style des cellules du tableau */
+td, th {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+/* Style de l'en-tête du tableau */
+th {
+    background-color: #f2f2f2;
+}
+
+/* Style des lignes alternatives du tableau */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Ajoute une bordure au survol de la ligne du tableau */
+tr:hover {
+    background-color: #e5e5e5;
+}

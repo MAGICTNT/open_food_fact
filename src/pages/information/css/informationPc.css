@@ -1,0 +1,76 @@
+.information {
+    border:1px solid red;
+    display: flex;
+    flex-direction: column;
+    margin: auto;
+    width: 80% ;
+
+}
+
+.informationContenu {
+    margin: auto;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.informationContenu {
+    display: flex;
+    flex-direction: row;
+    margin-top: 50px;
+}
+
+.informationVignette {
+    width: 30%;
+    margin-right: 20px;
+}
+.informationEtiquette {
+    width: 50%;
+}
+
+.informationSearch {
+    display: flex;
+    margin: auto;
+}
+.informationEtiquetteVisuelle {
+    display: flex;
+    flex-direction: row;
+}
+.informationEtiquetteSwitch {
+}
+.informationEtiquetteIngredientText {
+    margin-right: 15px;
+}
+
+.informationEtiquetteIngredient {
+}
+.informationEtiquetteScore {
+}
+.informationEtiquetteScoreEco {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-content: center;
+}
+.informationEtiquetteScoreEco img{
+    border:1px solid black;
+    width: 100%;
+    height: 100%;
+    /*display: flex;*/
+    /*flex-direction: row;*/
+}
+.informationEtiquetteScoreEco {
+    justify-content: center;
+    align-items: center;
+    margin: auto;
+    justify-self: center;
+
+}
+.informationEtiquetteScoreEco{}
+.informationEtiquetteScoreNutri{}
+.informationTableau {
+    border: 1px solid black;
+}
+.informationEtiquette{
+border: 1px solid black;
+}

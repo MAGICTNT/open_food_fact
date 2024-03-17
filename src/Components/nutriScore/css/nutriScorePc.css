@@ -1,0 +1,31 @@
+.nutriScoreBadge{
+    width: 100%;
+    height: 100%;
+    border-radius: 25px;
+    font-size: 100%;
+    display: flex;
+}
+
+.nutriScore_a{
+    background-color: #028142;
+}
+.nutriScore_b{
+    background-color: #85BB2E;
+}
+.nutriScore_c{
+    background-color: #FFCB02;
+}
+.nutriScore_d{
+    background-color: #EE8100;
+}
+.nutriScore_e{
+    background-color: #E63E10;
+}
+.nutriScore_n{
+    background-color: darkgray;
+}
+
+.nutriScore_text{
+    margin: auto;
+    color: #dddddd;
+}

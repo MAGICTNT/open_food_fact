@@ -1,0 +1,33 @@
+.vignetteSimple{
+    display: flex;
+    flex-direction: column;
+    border: 1px solid black;
+    text-align: center;
+}
+
+.vignetteSimpleName{}
+
+.vignetteSimpleImg{
+    height: 300px;
+    object-fit: contain; /* ou "contain", en fonction de votre préférence */
+    margin: auto;
+}
+
+.vignetteSimpleInfo{
+
+    justify-content: space-around;
+}
+
+.orderColumn{
+    display: flex;
+    flex-direction: column;
+}
+
+.orderRow{
+    display: flex;
+    flex-direction: row;
+}
+
+.vignetteSimpleInfoGroupe{}
+
+.vignetteSimpleInfoCode{}

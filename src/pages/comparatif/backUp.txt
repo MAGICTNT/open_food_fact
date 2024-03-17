@@ -1,0 +1,423 @@
+import {useEffect, useMemo, useState} from "react";
+import {getOpenFoodFact} from "../../Components/api/openFoodFact/OpenFoodFact";
+
+export const Comparatif = ({title}) => {
+    document.title = title;
+
+    const [codesComparatif, setCodesComparatif] = useState({
+        productLeft: "3270190128717", // Boisson au soja nature
+        productRight: " 3250391318353 ", // Boisson au soja nature BIO
+    });
+    const filtreVitamine = ['vitamin-d', 'vitamin-b2', 'vitamin-b12', 'vitamin-e', 'vitamin-c'];
+
+    const [datasComparatif, setDatasComparatif] = useState({
+        // datasLeft: {},
+        datasLeft: {
+            name: "",
+            img: "",
+            proteinsValue: "",
+            proteinsUnit: "",
+            caloriesValue: "",
+            caloriesUnit: "",
+            carbohydratesValue: "",
+            carbohydratesUnit: "",
+            vitamineDValue: "",
+            vitamineDUnit: "",
+            vitamineB2Value: "",
+            vitamineB2Unit: "",
+            vitamineB12Value: "",
+            vitamineB12Unit: "",
+            vitamineEValue: "",
+            vitamineEUnit: "",
+            vitamineCValue: "",
+            vitamineCUnit: "",
+        },
+        datasRight: {},
+    });
+
+    // Removed unnecessary useEffects
+
+    // Combined handler for product updates (assuming similar logic)
+    const handleProductChange = (side, event) => {
+        setCodesComparatif((prevState) => ({
+            ...prevState,
+            [side]: event.target.value,
+        }));
+    };
+
+    const choseProductLeft = useMemo(() => handleProductChange.bind(null, "productLeft"), []);
+    const choseProductRight = useMemo(() => handleProductChange.bind(null, "productRight"), []);
+
+    const updateData = async (side) => {
+        try {
+            switch (side) {
+                case "left": {
+                    const callOpenFoodFact = await getOpenFoodFact({
+                        code: codesComparatif.productLeft, // Assuming code is stored here
+                    });
+                    if (callOpenFoodFact.code === 200) {
+                        console.log(callOpenFoodFact.data.product.nutriments_estimated)
+                        console.log("produit gauche trouvé");
+                        setDatasComparatif((prevState) => ({
+                            ...prevState,
+                            datasLeft: {
+                                name: callOpenFoodFact.data.product.product_name_fr || callOpenFoodFact.data.product.product_name_en,
+                                img: callOpenFoodFact.data.product.image_front_small_url || "",
+                                proteinsValue: callOpenFoodFact.data.product.nutriments["proteins_100g"] || "",
+                                proteinsUnit: callOpenFoodFact.data.product.nutriments["proteins_unit"] || "",
+                                caloriesValue: callOpenFoodFact.data.product.nutriments["energy-kcal_100g"] || "",
+                                caloriesUnit: callOpenFoodFact.data.product.nutriments["energy-kcal_unit"] || "",
+                                carbohydratesValue: callOpenFoodFact.data.product.nutriments["carbohydrates_100g"] || "",
+                                carbohydratesUnit: callOpenFoodFact.data.product.nutriments["carbohydrates_unit"] || "",
+                                vitamineDValue: callOpenFoodFact.data.product.nutriments["vitamin-d_value"] || "",
+                                vitamineDUnit: callOpenFoodFact.data.product.nutriments["vitamin-d_unit"] || "",
+                                vitamineB2Value: callOpenFoodFact.data.product.nutriments["vitamin-b2_value"] || "",
+                                vitamineB2Unit: callOpenFoodFact.data.product.nutriments["vitamin-b2_unit"] || "",
+                                vitamineB12Value: callOpenFoodFact.data.product.nutriments["vitamin-b12_value"] || "",
+                                vitamineB12Unit: callOpenFoodFact.data.product.nutriments["vitamin-b12_unit"] || "",
+                                vitamineEValue: callOpenFoodFact.data.product.nutriments["vitamin-e_value"] || "",
+                                vitamineEUnit: callOpenFoodFact.data.product.nutriments["vitamin-e_unit"] || "",
+                                vitamineCValue: callOpenFoodFact.data.product.nutriments["vitamin-c_value"] || "",
+                                vitamineCUnit: callOpenFoodFact.data.product.nutriments["vitamin-c_unit"] || "",
+                            }
+                        }));
+                    } else {
+                        console.log("produit gauche non trouvé");
+                    }
+                    break;
+                }
+                case "right": {
+                    const callOpenFoodFact = await getOpenFoodFact({
+                        code: codesComparatif.productRight, // Assuming code is stored here
+                    });
+                    if (callOpenFoodFact.code === 200) {
+                        console.log(callOpenFoodFact.data.product.nutriments_estimated)
+                        console.log("produit droit trouvé");
+                        setDatasComparatif((prevState) => ({
+                            ...prevState,
+                            datasRight: callOpenFoodFact.data.product,
+                        }));
+                    } else {
+                        console.log("produit droit non trouvé");
+                    }
+                    break;
+                }
+                default:
+                    console.error("Côté invalide fourni à updateData:", side);
+            }
+        } catch (error) {
+            console.error("Erreur lors de la récupération des données:", error);
+        }
+    };
+
+    const datasLeftLength = useMemo(() => {
+        return Object.keys(datasComparatif.datasLeft).length;
+    }, [datasComparatif.datasLeft]);
+
+    const datasRightLength = useMemo(() => {
+        return Object.keys(datasComparatif.datasRight).length;
+    }, [datasComparatif.datasRight]);
+
+    const ajustClass = (dataLeft, dataRight, nutrientKey) => {
+
+        // if (dataRight.nutriments[nutrientKey] == undefined) {
+        //     return ""; // Or a default class name if desired
+        // } else if (dataLeft.nutriments[nutrientKey] == undefined) {
+        //     return ""; // Or a default class name if desired
+        // }
+        if (dataRight.nutriments) {
+            console.log("nutrition droit trouver")
+            console.log(dataRight.nutriments[nutrientKey])
+            console.log("-----")
+        }
+        if (dataLeft.nutriments) {
+            console.log("nutrition gauche trouver")
+            console.log(dataLeft.nutriments[nutrientKey])
+            console.log("|||||")
+
+        }
+        // console.log("left ", dataLeft, "right ", dataRight)
+        return ""
+        // if (dataLeft.nutriments[nutrientKey] > dataRight.nutriments[nutrientKey]) {
+        //     return "red";
+        // } else if (dataLeft.nutriments[nutrientKey] < dataRight.nutriments[nutrientKey]) {
+        //     return "green";
+        // } else {
+        //     return "";
+        // }
+    };
+    const controleData = (data) => {
+        const datasLeftValues = Object.values(datasComparatif.data);
+        const isAnyValueNotEmpty = datasLeftValues.some(value => value !== "");
+        console.log("isAnyValueNotEmpty", isAnyValueNotEmpty)
+        return isAnyValueNotEmpty;
+    }
+    const newLine = (label, dataLeftValue,dataLeftUnit, dataRightValue, dataRightUnit) => {
+        return (dataLeftValue && dataRightValue) !== undefined ?
+            <tr>
+                <th>{label}</th>
+                <th>{dataLeftValue}{dataLeftUnit}</th>
+                <th>{dataLeftValue > dataRightValue ? "<-" : dataLeftValue < dataRightValue ? "->" : "="}</th>
+                <th>{dataRightValue}{dataRightUnit}</th>
+            </tr>
+            :
+            null
+    }
+
+    const fleche = (productLeft, productRight) => {
+        return productLeft > productRight ? "<-" : productLeft < productRight ? "->" : "=";
+    }
+    return (
+        <div>
+            <div className="">
+                <label>Gauche</label>
+                <input
+                    type="text"
+                    value={codesComparatif.productLeft}
+                    onChange={choseProductLeft}
+                    name="testLeft"
+                />
+                <button onClick={() => updateData("left")}>Mettre à jour le gauche</button>
+            </div>
+            <div className="">
+                <label>Droite</label>
+                <input
+                    type="text"
+                    value={codesComparatif.productRight}
+                    onChange={choseProductRight}
+                    name="testRight"
+                />
+                <button onClick={() => updateData("right")}>Mettre à jour le droit</button>
+            </div>
+
+
+            {(datasComparatif.datasLeft.name || datasComparatif.datasLeft.img) !== "" ?
+                <section>
+                    <p>{datasComparatif.datasLeft.name}</p>
+                    <img src={datasComparatif.datasLeft.url}
+                         alt={`photo ${datasComparatif.datasLeft.name}`}/>
+                    <p>{datasComparatif.datasLeft.proteinsValue}{datasComparatif.datasLeft.proteinsUnit}</p>
+                    <p>{datasComparatif.datasLeft.caloriesValue}{datasComparatif.datasLeft.caloriesUnit}</p>
+                    <p>{datasComparatif.datasLeft.carbohydratesValue}{datasComparatif.datasLeft.carbohydratesUnit}</p>
+                    <p>{datasComparatif.datasLeft.vitamineDValue}{datasComparatif.datasLeft.vitamineDUnit}</p>
+                    <p>{datasComparatif.datasLeft.vitamineB2Value}{datasComparatif.datasLeft.vitamineB2Unit}</p>
+                    <p>{datasComparatif.datasLeft.vitamineB12Value}{datasComparatif.datasLeft.vitamineB12Unit}</p>
+                    <p>{datasComparatif.datasLeft.vitamineCValue}{datasComparatif.datasLeft.vitamineCUnit}</p>
+                    <p>{datasComparatif.datasLeft.vitamineEValue}{datasComparatif.datasLeft.vitamineEUnit}</p>
+                    {/*<p className={*/}
+                    {/*    ajustClass(datasComparatif.datasLeft, datasComparatif.datasRight, 'energy-kcal_100g')*/}
+                    {/*}>*/}
+                    {/*    calorie*/}
+                    {/*    100g: {datasComparatif.datasRight.nutriments['energy-kcal_100g']}{datasComparatif.datasRight.nutriments['energy-kcal_unit']}</p>*/}
+                    {/*<p className={*/}
+                    {/*    "ajustClass(datasComparatif.datasLeft, datasComparatif.datasRight, 'energy-proteins_unit')"*/}
+                    {/*}>*/}
+                    {/*    Proteins 100g: {datasComparatif.datasRight.nutriments['proteins_100g']}{datasComparatif.datasRight.nutriments['proteins_unit']}</p>*/}
+                    {/*<p className={*/}
+                    {/*    "ajustClass(datasComparatif.datasLeft, datasComparatif.datasRight, 'sugars_100g')"*/}
+                    {/*}>sucre*/}
+                    {/*    100g: {datasComparatif.datasRight.nutriments['sugars_100g']}{datasComparatif.datasRight.nutriments['sugars_unit']}</p>*/}
+                    {/*<p className={*/}
+                    {/*    "ajustClass(datasComparatif.datasLeft, datasComparatif.datasRight, 'carbohydrates_100g')"*/}
+                    {/*}>*/}
+                    {/*    Matiere grâce*/}
+                    {/*    100g: {datasComparatif.datasRight.nutriments['carbohydrates_100g']}{datasComparatif.datasRight.nutriments['carbohydrates_unit']}</p>*/}
+                </section>
+                :
+                <p>Entré un code valide</p>
+            }
+            {Object.keys(datasComparatif.datasLeft).length > 0 ?
+                <section>
+                    <p>{datasComparatif.datasLeft.name}</p>
+                    <img src={datasComparatif.datasLeft.img}
+                         alt={`photo ${datasComparatif.datasLeft.name}`}/>
+                    {/*<p className={""}>calorie*/}
+                    {/*    100g: {datasComparatif.datasLeft.nutriments['energy-kcal_100g']}{datasComparatif.datasLeft.nutriments['energy-kcal_unit']}</p>*/}
+                    {/*<p className={""}>Proteins*/}
+                    {/*    100g: {datasComparatif.datasLeft.nutriments['proteins_100g']}{datasComparatif.datasLeft.nutriments['proteins_unit']}</p>*/}
+                    {/*<p className={""}>sucre*/}
+                    {/*    100g: {datasComparatif.datasLeft.nutriments['sugars_100g']}{datasComparatif.datasLeft.nutriments['sugars_unit']}</p>*/}
+                    {/*<p className={""}>Matiere grâce*/}
+                    {/*    100g: {datasComparatif.datasLeft.nutriments['carbohydrates_100g']}{datasComparatif.datasLeft.nutriments['carbohydrates_unit']}</p>*/}
+                </section>
+                :
+                <p>Entré un code valide</p>
+            }
+            {Object.keys(datasComparatif.datasLeft).length > 0 && Object.keys(datasComparatif.datasRight).length > 0 ?
+                <div>
+                    <p>comparatif possible</p>
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>information</th>
+                            <th>{datasComparatif.datasLeft.name}</th>
+                            <th>avis</th>
+                            <th>{datasComparatif.datasRight.product_name}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {newLine(
+                            "Proteins 100g",
+                            datasComparatif.datasLeft.proteinsValue,
+                            datasComparatif.datasLeft.proteinsUnit,
+                            datasComparatif.datasRight.nutriments['proteins_100g'],
+                            datasComparatif.datasRight.nutriments['proteins_unit']
+                        )}
+                        {newLine(
+                            "calorie 100g",
+                            datasComparatif.datasLeft.proteinsValue,
+                            datasComparatif.datasLeft.proteinsUnit,
+                            datasComparatif.datasRight.nutriments['carbohydrates_100g'],
+                            datasComparatif.datasRight.nutriments['carbohydrates_unit']
+                        )}
+                        {/*{newLine(*/}
+                        {/*    "Sucre 100g",*/}
+                        {/*    datasComparatif.datasLeft.nutriments['sugars_100g'],*/}
+                        {/*    datasComparatif.datasLeft.nutriments['sugars_unit'],*/}
+                        {/*    datasComparatif.datasRight.nutriments['sugars_100g'],*/}
+                        {/*    datasComparatif.datasRight.nutriments['sugars_unit']*/}
+                        {/*)}*/}
+                        {newLine(
+                            "Matiere grâce 100g",
+                            datasComparatif.datasLeft.carbohydratesValue,
+                            datasComparatif.datasLeft.carbohydratesUnit,
+                            datasComparatif.datasRight.nutriments['carbohydrates_100g'],
+                            datasComparatif.datasRight.nutriments['carbohydrates_unit']
+                        )}
+
+                        </tbody>
+                    </table>
+                    {/*<p>-----</p>*/}
+
+                    {/*{JSON.stringify(datasComparatif.datasLeft.nutriments)}*/}
+                    {/*<p>-----</p>*/}
+                    {/*{JSON.stringify(datasComparatif.datasRight.nutriments)}*/}
+                    {/*<p>-----</p>*/}
+                    {controleData(datasComparatif.datasLeft)  ?
+
+                        <p>pas de data</p> :
+                        <div>
+                            {controleData(datasComparatif.datasLeft) ? "vitamine Trouver" : "pas coucou"}
+
+                            <table>
+                                <thead>
+                                <tr>
+                                    <th>vitamine</th>
+                                    <th>{datasComparatif.datasLeft.name }</th>
+                                    <th>avis</th>
+                                    <th>{!datasComparatif.datasRight.product_name_fr ? datasComparatif.datasRight.product_name_en : datasComparatif.datasRight.product_name_fr}</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {/*<tr>*/}
+                                {/*    <th>vitamine d</th>*/}
+                                {/*    <th>{datasComparatif.datasLeft.nutriments["vitamin-d_value"]}{datasComparatif.datasLeft.nutriments["vitamin-d_unit"]}</th>*/}
+                                {/*    <th>-></th>*/}
+                                {/*    <th>{datasComparatif.datasRight.nutriments["vitamin-d_value"]}{datasComparatif.datasRight.nutriments["vitamin-d_unit"]}</th>*/}
+                                {/*</tr>*/}
+                                {/*<tr>*/}
+                                {/*    <th>vitamine b12</th>*/}
+                                {/*    <th>{datasComparatif.datasLeft.nutriments["vitamin-b12_value"]}{datasComparatif.datasLeft.nutriments["vitamin-b12_unit"]}</th>*/}
+                                {/*    <th>-></th>*/}
+                                {/*    <th>{datasComparatif.datasRight.nutriments["vitamin-b12_value"]}{datasComparatif.datasRight.nutriments["vitamin-b12_unit"]}</th>*/}
+                                {/*</tr>*/}
+                                {/*<tr>*/}
+                                {/*    <th>vitamine b2</th>*/}
+                                {/*    <th>{datasComparatif.datasLeft.nutriments["vitamin-b2_value"]}{datasComparatif.datasLeft.nutriments["vitamin-b2_unit"]}</th>*/}
+                                {/*    <th>-></th>*/}
+                                {/*    <th>{datasComparatif.datasRight.nutriments["vitamin-b2_value"]}{datasComparatif.datasRight.nutriments["vitamin-b2_unit"]}</th>*/}
+                                {/*</tr>*/}
+                                {newLine(
+                                    "vitamine D",
+                                    datasComparatif.datasLeft.vitamineDValue,
+                                    datasComparatif.datasLeft.vitamineDUnit,
+                                    datasComparatif.datasRight.nutriments["vitamin-d_value"],
+                                    datasComparatif.datasRight.nutriments["vitamin-d_unit"],
+                                )}
+
+                                {/*{datasComparatif.datasLeft.nutriments["vitamin-d_value"] != "" && datasComparatif.datasRight.nutriments["vitamin-d_value"] != "" ?*/}
+                                {/*    <tr>*/}
+                                {/*        <th>vitamine D</th>*/}
+                                {/*        <th>{datasComparatif.datasLeft.nutriments["vitamin-d_value"]}{datasComparatif.datasLeft.nutriments["vitamin-d_unit"]}</th>*/}
+                                {/*        <th>-></th>*/}
+                                {/*        <th>{datasComparatif.datasRight.nutriments["vitamin-d_value"]}{datasComparatif.datasRight.nutriments["vitamin-d_unit"]}</th>*/}
+                                {/*    </tr>*/}
+                                {/*    :*/}
+                                {/*    null*/}
+                                {/*}*/}
+                                {newLine(
+                                    "vitamine B2",
+                                    datasComparatif.datasLeft.vitamineB2Value,
+                                    datasComparatif.datasLeft.vitamineB2Unit,
+                                    datasComparatif.datasRight.nutriments["vitamin-b2_value"],
+                                    datasComparatif.datasRight.nutriments["vitamin-b2_unit"],
+                                )}
+                                {/*{isNaN(datasComparatif.datasLeft.nutriments["vitamin-b2_value"]) < 0 && isNaN(datasComparatif.datasRight.nutriments["vitamin-b2_value"]) < 0 ?*/}
+                                {/*    <tr>*/}
+                                {/*        <th>vitamine B2</th>*/}
+                                {/*        <th>{datasComparatif.datasLeft.nutriments["vitamin-b2_value"]}{datasComparatif.datasLeft.nutriments["vitamin-b2_unit"]}</th>*/}
+                                {/*        <th>-></th>*/}
+                                {/*        <th>{datasComparatif.datasRight.nutriments["vitamin-b2_value"]}{datasComparatif.datasRight.nutriments["vitamin-b2_unit"]}</th>*/}
+                                {/*    </tr>*/}
+                                {/*    :*/}
+                                {/*    null*/}
+                                {/*}*/}
+                                {newLine(
+                                    "vitamine B12",
+                                    datasComparatif.datasLeft.vitamineB12Value,
+                                    datasComparatif.datasLeft.vitamineB12Unit,
+                                    datasComparatif.datasRight.nutriments["vitamin-b12_value"],
+                                    datasComparatif.datasRight.nutriments["vitamin-b12_unit"],
+                                )}
+                                {/*{!datasComparatif.datasLeft.nutriments["vitamin-b12_value"] && !datasComparatif.datasRight.nutriments["vitamin-b12_value"] ?*/}
+                                {/*    <tr>*/}
+                                {/*        <th>vitamine B12</th>*/}
+                                {/*        <th>{datasComparatif.datasLeft.nutriments["vitamin-b12_value"]}{datasComparatif.datasLeft.nutriments["vitamin-b12_unit"]}</th>*/}
+                                {/*        <th>-></th>*/}
+                                {/*        <th>{datasComparatif.datasRight.nutriments["vitamin-b12_value"]}{datasComparatif.datasRight.nutriments["vitamin-b12_unit"]}</th>*/}
+                                {/*    </tr>*/}
+                                {/*    :*/}
+                                {/*    null*/}
+                                {/*}*/}
+                                {newLine(
+                                    "vitamine E",
+                                    datasComparatif.datasLeft.vitamineEValue,
+                                    datasComparatif.datasLeft.vitamineEUnit,
+                                    datasComparatif.datasRight.nutriments["vitamin-e_value"],
+                                    datasComparatif.datasRight.nutriments["vitamin-e_unit"],
+                                )}
+                                {/*{isNaN(datasComparatif.datasLeft.nutriments["vitamin-e_value"]) < 0 && isNaN(datasComparatif.datasRight.nutriments["vitamin-e_value"]) < 0 ?*/}
+                                {/*     <tr>*/}
+                                {/*         <th>vitamine E</th>*/}
+                                {/*         <th>{datasComparatif.datasLeft.nutriments["vitamin-e_value"]}{datasComparatif.datasLeft.nutriments["vitamin-e_unit"]}</th>*/}
+                                {/*         <th>-></th>*/}
+                                {/*         <th>{datasComparatif.datasRight.nutriments["vitamin-e_value"]}{datasComparatif.datasRight.nutriments["vitamin-e_unit"]}</th>*/}
+                                {/*     </tr>*/}
+                                {/*     :*/}
+                                {/*     null*/}
+                                {/* }*/}
+                                </tbody>
+                            </table>
+                            {/*<p>{datasComparatif.datasLeft.nutriments["vitamin-e_value"]}</p>*/}
+                            {/*<p>vitamine d {datasComparatif.datasLeft.nutriments["vitamin-d_value"]}{datasComparatif.datasLeft.nutriments["vitamin-d_unit"]}</p>*/}
+                            {/*<p>vitamine b12 {datasComparatif.datasLeft.nutriments["vitamin-b12_value"]}{datasComparatif.datasLeft.nutriments["vitamin-b12_unit"]}</p>*/}
+                            {/*<p>vitamine b2 {datasComparatif.datasLeft.nutriments["vitamin-b2_value"]}{datasComparatif.datasLeft.nutriments["vitamin-b2_unit"]}</p>*/}
+                            {/*<p>vitamine e {datasComparatif.datasLeft.nutriments["vitamin-e_value"]}{datasComparatif.datasLeft.nutriments["vitamin-e_unit"]}</p>*/}
+                            {/*<p>--------</p>*/}
+                            {/*<p>{datasComparatif.datasRight.nutriments["vitamin-e_value"]}</p>*/}
+                            {/*<p>vitamine d {datasComparatif.datasRight.nutriments["vitamin-d_value"]}{datasComparatif.datasRight.nutriments["vitamin-d_unit"]}</p>*/}
+                            {/*<p>vitamine b12 {datasComparatif.datasRight.nutriments["vitamin-b12_value"]}{datasComparatif.datasRight.nutriments["vitamin-d12_unit"]}</p>*/}
+                            {/*<p>vitamine b2 {datasComparatif.datasRight.nutriments["vitamin-b2_value"]}{datasComparatif.datasRight.nutriments["vitamin-d2_unit"]}</p>*/}
+                            {/*<p>vitamine e {datasComparatif.datasRight.nutriments["vitamin-e_value"]}{datasComparatif.datasRight.nutriments["vitamin-e_unit"]}</p>*/}
+                        </div>
+                    }
+                </div>
+                :
+                <p>pas de comparatif possible </p>
+            }
+            {/*<p>Longueur des données du produit gauche: {datasLeftLength}</p>*/}
+            {/*<p>Longueur des données du produit droit: {datasRightLength}</p>*/}
+        </div>
+    );
+
+};
